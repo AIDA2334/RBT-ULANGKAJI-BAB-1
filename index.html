@@ -4,387 +4,240 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kuiz Interaktif RBT Tingkatan 1 - Bab 1</title>
-    <!-- React & Tailwind CSS -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body class="bg-slate-50 min-h-screen text-slate-800 font-sans antialiased">
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        const quizData = [
-            {
-                id: 1,
-                question: "Apakah maksud reka bentuk?",
-                options: [
-                    "Proses mengasingkan barangan terpakai untuk dijadikan kraf tangan.",
-                    "Pengetahuan tentang penyusunan bahan secara terancang untuk menghasilkan produk yang memberi impak kepada kehidupan.",
-                    "Penggunaan pengetahuan sains untuk menyelesaikan masalah kehidupan harian.",
-                    "Kaedah menghasilkan produk menggunakan mesin berteknologi tinggi sahaja."
-                ],
-                correct: 1,
-                explanation: "Reka bentuk merujuk kepada pengetahuan tentang penyusunan bahan secara terancang untuk menghasilkan produk yang memberi impak positif kepada kehidupan."
-            },
-            {
-                id: 2,
-                question: "Teknologi merujuk kepada...",
-                options: [
-                    "Pengetahuan yang mengaplikasikan sains untuk memudahkan kehidupan manusia.",
-                    "Penghasilan lukisan teknik yang tepat dan kreatif.",
-                    "Penghasilan karya seni visual untuk tujuan hiasan semata-mata.",
-                    "Kemahiran menggunakan perisian komputer untuk mereka bentuk logo."
-                ],
-                correct: 0,
-                explanation: "Teknologi ialah pengaplikasian pengetahuan sains dan matematik untuk menyelesaikan masalah dan memudahkan kehidupan manusia."
-            },
-            {
-                id: 3,
-                question: "Antara berikut, yang manakah tergolong dalam kumpulan reka bentuk konkrit?",
-                options: [
-                    "Perkhidmatan perbankan",
-                    "Seramik dan seramik hiasan",
-                    "Atur cara komputer",
-                    "Bahasa komunikasi"
-                ],
-                correct: 1,
-                explanation: "Seramik dan seramik hiasan tergolong dalam reka bentuk konkrit kerana ia merupakan objek fizikal yang boleh dilihat dan disentuh."
-            },
-            {
-                id: 4,
-                question: "Antara berikut, yang manakah merupakan contoh bagi reka bentuk abstrak?",
-                options: [
-                    "Pakaian dan aksesori",
-                    "Sistem pengangkutan dan komunikasi",
-                    "Peralatan domestik",
-                    "Bangunan dan jambatan"
-                ],
-                correct: 1,
-                explanation: "Sistem pengangkutan dan komunikasi tergolong dalam bidang reka bentuk abstrak (perkhidmatan/sistem)."
-            },
-            {
-                id: 5,
-                question: "Apakah perbezaan utama antara rupa dan bentuk?",
-                options: [
-                    "Rupa mempunyai isi padu, manakala bentuk adalah 2 dimensi (2D).",
-                    "Rupa berbentuk 2 dimensi (2D), manakala bentuk adalah 3 dimensi (3D) dan mempunyai isi padu.",
-                    "Rupa hanya menggunakan warna panas, manakala bentuk menggunakan warna sejuk.",
-                    "Rupa dibuat menggunakan komputer, manakala bentuk dibuat menggunakan tangan."
-                ],
-                correct: 1,
-                explanation: "Rupa hanya mempunyai ukuran panjang dan lebar (2D), manakala bentuk mempunyai isi padu, ruang, dan jisim (3D)."
-            },
-            {
-                id: 6,
-                question: "Warna primer terdiri daripada...",
-                options: [
-                    "Hijau, Jingga, Ungu",
-                    "Merah, Kuning, Biru",
-                    "Merah, Hijau, Ungu",
-                    "Biru, Kuning, Hijau"
-                ],
-                correct: 1,
-                explanation: "Warna primer ialah warna asas yang tidak boleh dihasilkan melalui campuran warna lain, iaitu Merah, Kuning, dan Biru."
-            },
-            {
-                id: 7,
-                question: "Apakah yang dimaksudkan dengan imbangan simetri?",
-                options: [
-                    "Elemen pada sebelah kiri dan kanan tidak sama tetapi mempunyai berat visual yang setara.",
-                    "Unsur reka bentuk yang disusun secara berpusat dari satu titik tengah.",
-                    "Unsur reka bentuk pada kedua-dua belah bahagian adalah sama dari segi bentuk dan saiz.",
-                    "Unsur reka bentuk yang berbeza saiz disusun berterusan."
-                ],
-                correct: 2,
-                explanation: "Imbangan simetri bermaksud kedua-dua belah bahagian kiri dan kanan mempunyai persamaan dari segi elemen, saiz, dan bentuk."
-            },
-            {
-                id: 8,
-                question: "Apakah maksud inovasi dalam reka bentuk?",
-                options: [
-                    "Penghasilan sesuatu produk baharu yang belum pernah wujud sebelum ini.",
-                    "Pengubahsuaian atau penambahbaikan terhadap produk sedia ada supaya lebih efisien.",
-                    "Proses melukis semula pelan produk orang lain.",
-                    "Penjualan produk terpakai di pasaran terbuka."
-                ],
-                correct: 1,
-                explanation: "Inovasi ialah proses pengubahsuaian dan penambahbaikan produk sedia ada untuk menjadikannya lebih baik dan berfungsi."
-            },
-            {
-                id: 9,
-                question: "Apakah maksud invensi?",
-                options: [
-                    "Penemuan atau penghasilan produk baharu yang belum pernah wujud sebelum ini.",
-                    "Merekodkan pergerakan harga barangan di pasaran.",
-                    "Penambahbaikan ciri-ciri keselamatan produk sedia ada.",
-                    "Peniruan bentuk semula jadi ke dalam seni lukis."
-                ],
-                correct: 0,
-                explanation: "Invensi ialah penemuan sesuatu produk atau kaedah baharu yang belum pernah wujud sebelumnya."
-            },
-            {
-                id: 10,
-                question: "Teknik pembinaan objek 'pemuakan' (stacking) merujuk kepada...",
-                options: [
-                    "Membuang bahagian yang tidak diperlukan pada objek.",
-                    "Menyambung dua objek yang berbeza menggunakan pelekat.",
-                    "Meletakkan objek yang sama atau berbeza di atas objek yang lain secara bertindih.",
-                    "Melipat kertas atau kepingan logam untuk membentuk saiz baharu."
-                ],
-                correct: 2,
-                explanation: "Pemuakan dilakukan dengan meletakkan objek secara bertindih dari bawah ke atas."
-            }
-        ];
-
-        function App() {
-            const [gameState, setGameState] = useState('start'); // start, playing, result
-            const [currentIndex, setCurrentIndex] = useState(0);
-            const [selectedAnswer, setSelectedAnswer] = useState(null);
-            const [userAnswers, setUserAnswers] = useState([]);
-            const [score, setScore] = useState(0);
-            const [timeLeft, setTimeLeft] = useState(15);
-            const [isSubmitted, setIsSubmitted] = useState(false);
-
-            // Timer countdown logic
-            useEffect(() => {
-                let timer;
-                if (gameState === 'playing' && !isSubmitted && timeLeft > 0) {
-                    timer = setInterval(() => {
-                        setTimeLeft((prev) => prev - 1);
-                    }, 1000);
-                } else if (timeLeft === 0 && !isSubmitted && gameState === 'playing') {
-                    handleTimeOut();
-                }
-                return () => clearInterval(timer);
-            }, [gameState, timeLeft, isSubmitted]);
-
-            const startQuiz = () => {
-                setGameState('playing');
-                setCurrentIndex(0);
-                setSelectedAnswer(null);
-                setUserAnswers([]);
-                setScore(0);
-                setTimeLeft(15);
-                setIsSubmitted(false);
-            };
-
-            const handleTimeOut = () => {
-                setIsSubmitted(true);
-                // Save null/unanswered
-                const newAnswers = [...userAnswers, { questionId: quizData[currentIndex].id, selected: null, correct: false }];
-                setUserAnswers(newAnswers);
-            };
-
-            const handleSelectOption = (index) => {
-                if (isSubmitted) return;
-                setSelectedAnswer(index);
-            };
-
-            const handleConfirmAnswer = () => {
-                if (selectedAnswer === null) return;
-                setIsSubmitted(true);
-                const isCorrect = selectedAnswer === quizData[currentIndex].correct;
-                if (isCorrect) {
-                    setScore((prev) => prev + 1);
-                }
-                setUserAnswers([...userAnswers, {
-                    questionId: quizData[currentIndex].id,
-                    selected: selectedAnswer,
-                    correct: isCorrect
-                }]);
-            };
-
-            const handleNextQuestion = () => {
-                if (currentIndex + 1 < quizData.length) {
-                    setCurrentIndex((prev) => prev + 1);
-                    setSelectedAnswer(null);
-                    setIsSubmitted(false);
-                    setTimeLeft(15);
-                } else {
-                    setGameState('result');
-                }
-            };
-
-            const currentQ = quizData[currentIndex];
-
-            return (
-                <div className="max-w-2xl mx-auto my-8 px-4">
-                    {/* Header Banner */}
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-t-2xl p-6 text-white shadow-lg text-center">
-                        <h1 className="text-2xl md:text-3xl font-extrabold tracking-wide">KUIZ INTERAKTIF RBT TINGKATAN 1</h1>
-                        <p className="text-blue-100 text-sm mt-1">Bab 1: Pengenalan Kepada Reka Bentuk Dan Teknologi</p>
-                    </div>
-
-                    {/* START SCREEN */}
-                    {gameState === 'start' && (
-                        <div className="bg-white rounded-b-2xl p-8 shadow-md text-center border-x border-b border-slate-200">
-                            <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">
-                                💡
-                            </div>
-                            <h2 className="text-xl font-bold text-slate-800 mb-2">Sedia Untuk Menguji Kefahaman Anda?</h2>
-                            <p className="text-slate-600 mb-6 text-sm leading-relaxed">
-                                Kuiz ini mengandungi <strong>10 soalan pilihan berganda</strong> berdasarkan DSKP RBT Tingkatan 1 Bab 1. Masa bagi setiap soalan ialah <strong>15 saat</strong>.
-                            </p>
-                            <button 
-                                onClick={startQuiz}
-                                className="w-full md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition transform active:scale-95"
-                            >
-                                Mula Kuiz Sekarang
-                            </button>
-                        </div>
-                    )}
-
-                    {/* PLAYING SCREEN */}
-                    {gameState === 'playing' && (
-                        <div className="bg-white rounded-b-2xl p-6 shadow-md border-x border-b border-slate-200">
-                            {/* Progress & Timer Bar */}
-                            <div className="flex justify-between items-center mb-4 text-sm font-semibold text-slate-500">
-                                <span>Soalan {currentIndex + 1} daripada {quizData.length}</span>
-                                <span className={`flex items-center gap-1 font-mono px-3 py-1 rounded-full text-xs font-bold ${timeLeft <= 5 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
-                                    ⏱️ {timeLeft}s
-                                </span>
-                            </div>
-
-                            {/* Progress Bar */}
-                            <div className="w-full bg-slate-200 h-2 rounded-full mb-6 overflow-hidden">
-                                <div 
-                                    className="bg-blue-600 h-full transition-all duration-300"
-                                    style={{ width: `${((currentIndex + 1) / quizData.length) * 100}%` }}
-                                ></div>
-                            </div>
-
-                            {/* Question */}
-                            <h2 className="text-lg font-bold text-slate-800 mb-6">
-                                {currentQ.question}
-                            </h2>
-
-                            {/* Options */}
-                            <div className="space-y-3 mb-6">
-                                {currentQ.options.map((option, idx) => {
-                                    let btnStyle = "border-slate-200 hover:bg-slate-50 text-slate-700";
-                                    
-                                    if (selectedAnswer === idx && !isSubmitted) {
-                                        btnStyle = "border-blue-600 bg-blue-50 text-blue-800 font-medium ring-2 ring-blue-500/20";
-                                    }
-
-                                    if (isSubmitted) {
-                                        if (idx === currentQ.correct) {
-                                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-800 font-semibold";
-                                        } else if (selectedAnswer === idx) {
-                                            btnStyle = "border-red-500 bg-red-50 text-red-800 font-semibold";
-                                        } else {
-                                            btnStyle = "border-slate-200 opacity-50 text-slate-500";
-                                        }
-                                    }
-
-                                    return (
-                                        <button
-                                            key={idx}
-                                            onClick={() => handleSelectOption(idx)}
-                                            disabled={isSubmitted}
-                                            className={`w-full text-left p-4 rounded-xl border text-sm transition flex items-start gap-3 ${btnStyle}`}
-                                        >
-                                            <span className="w-6 h-6 rounded-full bg-slate-200/60 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                                                {String.fromCharCode(65 + idx)}
-                                            </span>
-                                            <span className="flex-1">{option}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Rationale/Explanation Box after Submission */}
-                            {isSubmitted && (
-                                <div className="mb-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs md:text-sm text-slate-700">
-                                    <p className="font-bold mb-1 flex items-center gap-1 text-slate-800">
-                                        💡 Penjelasan:
-                                    </p>
-                                    <p>{currentQ.explanation}</p>
-                                </div>
-                            )}
-
-                            {/* Navigation Buttons */}
-                            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                                {!isSubmitted ? (
-                                    <button
-                                        onClick={handleConfirmAnswer}
-                                        disabled={selectedAnswer === null}
-                                        className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition ${
-                                            selectedAnswer !== null 
-                                                ? 'bg-blue-600 hover:bg-blue-700 text-white shadow' 
-                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                                        }`}
-                                    >
-                                        Hantar Jawapan
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={handleNextQuestion}
-                                        className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold shadow transition flex items-center gap-2"
-                                    >
-                                        {currentIndex + 1 === quizData.length ? "Lihat Keputusan" : "Soalan Seterusnya ➔"}
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* RESULT SCREEN */}
-                    {gameState === 'result' && (
-                        <div className="bg-white rounded-b-2xl p-8 shadow-md text-center border-x border-b border-slate-200">
-                            <div className="w-24 h-24 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4 border-4 border-blue-100 text-4xl">
-                                🏆
-                            </div>
-
-                            <h2 className="text-2xl font-extrabold text-slate-800 mb-1">Tahniah! Kuiz Selesai</h2>
-                            <p className="text-slate-500 text-sm mb-6">Berikut ialah ringkasan prestasi anda:</p>
-
-                            {/* Score Display */}
-                            <div className="bg-slate-50 rounded-2xl p-6 mb-6 inline-block w-full max-w-xs border border-slate-200">
-                                <span className="text-xs uppercase tracking-widest text-slate-400 font-bold block mb-1">JUMLAH SKOR</span>
-                                <span className="text-5xl font-black text-blue-600">{score}</span>
-                                <span className="text-slate-400 font-bold text-xl"> / {quizData.length}</span>
-                                <p className="text-xs font-semibold text-slate-500 mt-2">
-                                    Peratusan: {Math.round((score / quizData.length) * 100)}%
-                                </p>
-                            </div>
-
-                            {/* Feedback message */}
-                            <p className="text-sm font-medium text-slate-700 mb-8">
-                                {score >= 8 
-                                    ? "Cemerlang! Anda sangat menguasai Bab 1 RBT Tingkatan 1." 
-                                    : score >= 5 
-                                    ? "Bagus! Anda mempunyai kefahaman asas yang baik." 
-                                    : "Jangan putus asa! Boleh semak semula nota Bab 1 dan cuba lagi."}
-                            </p>
-
-                            {/* Action Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                <button
-                                    onClick={startQuiz}
-                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
-                                >
-                                    Cuba Lagi 🔄
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --correct-bg: #ecfdf5;
+            --correct-border: #10b981;
+            --correct-text: #065f46;
+            --wrong-bg: #fef2f2;
+            --wrong-border: #ef4444;
+            --wrong-text: #991b1b;
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-    </script>
-</body>
-</html>
-```eof
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-### Ringkasan Aplikasi Kuiz Interaktif:
-1. **Navigasi Soalan & Pemasa:** Setiap soalan disertakan dengan pemasa 15 saat dan butang **Hantar Jawapan / Soalan Seterusnya** (Next).
-2. **Papan Skor & Keputusan:** Menunjukkan jumlah skor akhir secara tepat bersama peratusan pencapaian.
-3. **Penaakulan Jawapan:** Paparan maklum balas dan penjelasan serta-merta sebaik sahaja soalan dijawab.
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 640px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb, #4338ca);
+            color: #ffffff;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            color: #dbeafe;
+            margin-top: 4px;
+        }
+
+        .body-content {
+            padding: 24px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            padding: 16px 8px;
+        }
+
+        .icon-badge {
+            width: 64px;
+            height: 64px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 16px auto;
+        }
+
+        .start-screen h2 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .start-screen p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .timer-badge {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            color: #334155;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .timer-badge.warning {
+            background: #fee2e2;
+            color: #dc2626;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .option-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .option-btn.correct {
+            border-color: var(--correct-border);
+            background: var(--correct-bg);
+            color: var(--correct-text);
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--wrong-border);
+            background: var(--wrong-bg);
+            color: var(--wrong-text);
+            font-weight: 600;
+        }
+
+        .explanation-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #334155;
+            margin-bottom: 20px;
+        }
+
+        .explanation-box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .action-footer {
+            display: flex;
+            justify-content:
