@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuiz Interaktif RBT Tingkatan 1 - Bab 1</title>
+    <!-- React & Tailwind CSS -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const quizData = [
+            {
+                id: 1,
+                question: "Apakah maksud reka bentuk?",
+                options: [
+                    "Proses mengasingkan barangan terpakai untuk dijadikan kraf tangan.",
+                    "Pengetahuan tentang penyusunan bahan secara terancang untuk menghasilkan produk yang memberi impak kepada kehidupan.",
+                    "Penggunaan pengetahuan sains untuk menyelesaikan masalah kehidupan harian.",
+                    "Kaedah menghasilkan produk menggunakan mesin berteknologi tinggi sahaja."
+                ],
+                correct: 1,
+                explanation: "Reka bentuk merujuk kepada pengetahuan tentang penyusunan bahan secara terancang untuk menghasilkan produk yang memberi impak positif kepada kehidupan."
+            },
+            {
+                id: 2,
+                question: "Teknologi merujuk kepada...",
+                options: [
+                    "Pengetahuan yang mengaplikasikan sains untuk memudahkan kehidupan manusia.",
+                    "Penghasilan lukisan teknik yang tepat dan kreatif.",
+                    "Penghasilan karya seni visual untuk tujuan hiasan semata-mata.",
+                    "Kemahiran menggunakan perisian komputer untuk mereka bentuk logo."
+                ],
+                correct: 0,
+                explanation: "Teknologi ialah pengaplikasian pengetahuan sains dan matematik untuk menyelesaikan masalah dan memudahkan kehidupan manusia."
+            },
+            {
+                id: 3,
+                question: "Antara berikut, yang manakah tergolong dalam kumpulan reka bentuk konkrit?",
+                options: [
+                    "Perkhidmatan perbankan",
+                    "Seramik dan seramik hiasan",
+                    "Atur cara komputer",
+                    "Bahasa komunikasi"
+                ],
+                correct: 1,
+                explanation: "Seramik dan seramik hiasan tergolong dalam reka bentuk konkrit kerana ia merupakan objek fizikal yang boleh dilihat dan disentuh."
+            },
+            {
+                id: 4,
+                question: "Antara berikut, yang manakah merupakan contoh bagi reka bentuk abstrak?",
+                options: [
+                    "Pakaian dan aksesori",
+                    "Sistem pengangkutan dan komunikasi",
+                    "Peralatan domestik",
+                    "Bangunan dan jambatan"
+                ],
+                correct: 1,
+                explanation: "Sistem pengangkutan dan komunikasi tergolong dalam bidang reka bentuk abstrak (perkhidmatan/sistem)."
+            },
+            {
+                id: 5,
+                question: "Apakah perbezaan utama antara rupa dan bentuk?",
+                options: [
+                    "Rupa mempunyai isi padu, manakala bentuk adalah 2 dimensi (2D).",
+                    "Rupa berbentuk 2 dimensi (2D), manakala bentuk adalah 3 dimensi (3D) dan mempunyai isi padu.",
+                    "Rupa hanya menggunakan warna panas, manakala bentuk menggunakan warna sejuk.",
+                    "Rupa dibuat menggunakan komputer, manakala bentuk dibuat menggunakan tangan."
+                ],
+                correct: 1,
+                explanation: "Rupa hanya mempunyai ukuran panjang dan lebar (2D), manakala bentuk mempunyai isi padu, ruang, dan jisim (3D)."
+            },
+            {
+                id: 6,
+                question: "Warna primer terdiri daripada...",
+                options: [
+                    "Hijau, Jingga, Ungu",
+                    "Merah, Kuning, Biru",
+                    "Merah, Hijau, Ungu",
+                    "Biru, Kuning, Hijau"
+                ],
+                correct: 1,
+                explanation: "Warna primer ialah warna asas yang tidak boleh dihasilkan melalui campuran warna lain, iaitu Merah, Kuning, dan Biru."
+            },
+            {
+                id: 7,
+                question: "Apakah yang dimaksudkan dengan imbangan simetri?",
+                options: [
+                    "Elemen pada sebelah kiri dan kanan tidak sama tetapi mempunyai berat visual yang setara.",
+                    "Unsur reka bentuk yang disusun secara berpusat dari satu titik tengah.",
+                    "Unsur reka bentuk pada kedua-dua belah bahagian adalah sama dari segi bentuk dan saiz.",
+                    "Unsur reka bentuk yang berbeza saiz disusun berterusan."
+                ],
+                correct: 2,
+                explanation: "Imbangan simetri bermaksud kedua-dua belah bahagian kiri dan kanan mempunyai persamaan dari segi elemen, saiz, dan bentuk."
+            },
+            {
+                id: 8,
+                question: "Apakah maksud inovasi dalam reka bentuk?",
+                options: [
+                    "Penghasilan sesuatu produk baharu yang belum pernah wujud sebelum ini.",
+                    "Pengubahsuaian atau penambahbaikan terhadap produk sedia ada supaya lebih efisien.",
+                    "Proses melukis semula pelan produk orang lain.",
+                    "Penjualan produk terpakai di pasaran terbuka."
+                ],
+                correct: 1,
+                explanation: "Inovasi ialah proses pengubahsuaian dan penambahbaikan produk sedia ada untuk menjadikannya lebih baik dan berfungsi."
+            },
+            {
+                id: 9,
+                question: "Apakah maksud invensi?",
+                options: [
+                    "Penemuan atau penghasilan produk baharu yang belum pernah wujud sebelum ini.",
+                    "Merekodkan pergerakan harga barangan di pasaran.",
+                    "Penambahbaikan ciri-ciri keselamatan produk sedia ada.",
+                    "Peniruan bentuk semula jadi ke dalam seni lukis."
+                ],
+                correct: 0,
+                explanation: "Invensi ialah penemuan sesuatu produk atau kaedah baharu yang belum pernah wujud sebelumnya."
+            },
+            {
+                id: 10,
+                question: "Teknik pembinaan objek 'pemuakan' (stacking) merujuk kepada...",
+                options: [
+                    "Membuang bahagian yang tidak diperlukan pada objek.",
+                    "Menyambung dua objek yang berbeza menggunakan pelekat.",
+                    "Meletakkan objek yang sama atau berbeza di atas objek yang lain secara bertindih.",
+                    "Melipat kertas atau kepingan logam untuk membentuk saiz baharu."
+                ],
+                correct: 2,
+                explanation: "Pemuakan dilakukan dengan meletakkan objek secara bertindih dari bawah ke atas."
+            }
+        ];
+
+        function App() {
+            const [gameState, setGameState] = useState('start'); // start, playing, result
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const [selectedAnswer, setSelectedAnswer] = useState(null);
+            const [userAnswers, setUserAnswers] = useState([]);
+            const [score, setScore] = useState(0);
+            const [timeLeft, setTimeLeft] = useState(15);
+            const [isSubmitted, setIsSubmitted] = useState(false);
+
+            // Timer countdown logic
+            useEffect(() => {
+                let timer;
+                if (gameState === 'playing' && !isSubmitted && timeLeft > 0) {
+                    timer = setInterval(() => {
+                        setTimeLeft((prev) => prev - 1);
+                    }, 1000);
+                } else if (timeLeft === 0 && !is
